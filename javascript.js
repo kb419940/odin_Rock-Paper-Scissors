@@ -32,22 +32,32 @@ function playRound(playerSelection, computerSelection) {
         result[0] = `Battle to a draw!`;
         result[1] = 0;
     } else if (playCompare(playerSelection, computerSelection) === "playerWin"){
-        result[0] = `You Win! ${playerSelection}(you) beats ${computerSelection}(pc)`;
+        result[0] = `You Win! ${playerSelection}(you) beats ${computerSelection}(pc) <br> You get 1 point.<br>`;
         result[1] = 1;
     }else{
-        result[0] = `You Lose! ${computerSelection}(pc) beats ${playerSelection}(you)`;
+        result[0] = `You Lose! ${computerSelection}(pc) beats ${playerSelection}(you)<br> PC get 1 point<br>`;
         result[1] = -1;
     }
     return result;
 }
 
-function showScore(singleResult, player_win, draw, player_lose) {
-    
+function showScore(playerWin, pcWin) {
+    if(playerWin === 5){
+        console.log(`Player Win! ${playerWin}`);
+        resultContent.innerHTML = "Player get 5 point first. Player Win<br>";
+        player_win = 0;
+        pc_win = 0;
+    }else if(pcWin === 5){
+        console.log(`PC Win! ${pcWin}`);
+        resultContent.innerHTML = "PC get 5 point first. PC Win<br>";
+        player_win = 0;
+        pc_win = 0;
+    }
 }
 
 const buttons = document.querySelectorAll('button');
 const resultContainer = document.querySelector('.result');
-const resultContent = document.createElement('h2');
+const resultContent = document.createElement('p');
 resultContent.style.cssText = 'text-align: center;';
 const runningScore = document.createElement('h3');
 
@@ -62,7 +72,7 @@ buttons.forEach(button => {
         let resultArray = playRound(playerSelection, getComputerChoice());
 
         resultContent.classList.add('content');
-        resultContent.textContent = resultArray[0];
+        resultContent.innerHTML = resultArray[0];
         resultContainer.appendChild(resultContent);
         switch (resultArray[1]) {
             case -1:
@@ -77,23 +87,7 @@ buttons.forEach(button => {
             default:
                 break;
         }
-
+        showScore(player_win, pc_win);
         console.log(`player_win = ${player_win}, draw = ${draw}, pc_win = ${pc_win}`);
     })
 });
-
-
-
-
-//   function game(playerSelection){
-//     for (let i = 1; i <= 5; i++) {
-//         let playerSelection = prompt(`round ${i} : rock, papper, scissor?`);
-//         const computerSelection = getComputerChoice();
-//         console.log(playRound(playerSelection, computerSelection));      
-//     }
-//   }
-
-
-//   const playerSelection = "rock";
-//   game(playerSelection);
-
